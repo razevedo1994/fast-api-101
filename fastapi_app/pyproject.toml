@@ -13,6 +13,7 @@ dev = [
     "pytest>=8.3.5",
     "pytest-cov>=6.1.1",
     "ruff>=0.11.5",
+    "taskipy>=1.14.1",
 ]
 
 [tool.ruff]
@@ -29,3 +30,13 @@ preview = true
 [tool.pytest.ini_options]
 pythonpath = "."
 addopts = "-p no:warnings"
+
+[tool.taskipy.tasks]
+run = "fastapi dev fast_zero/app.py"
+
+pre_test = "task lint"
+test = "pytest --cov=fast_zero -vv"
+post_test = "coverage html"
+
+lint = "ruff check . ; ruff check . --diff"
+format = "ruff check . --fix ; ruff format ."
