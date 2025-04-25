@@ -1,11 +1,17 @@
 from http import HTTPStatus
 
+import pytest
 from fastapi.testclient import TestClient
 
 from fast_zero.app import app
 
 
-def test_root_deve_retornar_ok_e_ola_mundo():
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+
+def test_root_deve_retornar_ok_e_ola_mundo(client):
     client = TestClient(app)
 
     response = client.get("/")
@@ -14,7 +20,7 @@ def test_root_deve_retornar_ok_e_ola_mundo():
     assert response.json() == {"message": "Hello World"}
 
 
-def test_create_user():
+def test_create_user(client):
     client = TestClient(app)
 
     response = client.post(
