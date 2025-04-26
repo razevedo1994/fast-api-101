@@ -26,3 +26,12 @@ def create_user(user: UserSchema):
 @app.get("/users/", response_model=UserList)
 def read_users():
     return {"users": database}
+
+
+@app.put("/users/{user_id}", response_model=UserPublic)
+def update_user(user_id: int, user: UserSchema):
+    user_with_id = UserDB(id=user_id, **user.model_dump())
+
+    database[user_id - 1] = user_with_id
+
+    return user_with_id
