@@ -28,12 +28,23 @@ def read_users():
     return {"users": database}
 
 
+@app.get("/user/{user_id}", response_model=UserPublic)
+def read_user(user_id: int):
+    if user_id < 1 or user_id > len(database):
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND,
+            detail="User with id not found.",
+        )
+
+    return database[user_id - 1]
+
+
 @app.put("/users/{user_id}", response_model=UserPublic)
 def update_user(user_id: int, user: UserSchema):
     if user_id < 1 or user_id > len(database):
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=f"User with id {user_id} not found.",
+            detail="User with id not found.",
         )
 
     user_with_id = UserDB(id=user_id, **user.model_dump())
