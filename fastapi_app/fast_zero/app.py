@@ -36,7 +36,9 @@ def read_user(user_id: int):
             detail="User with id not found.",
         )
 
-    return database[user_id - 1]
+    user = database[user_id - 1]
+
+    return user
 
 
 @app.put("/users/{user_id}", response_model=UserPublic)
