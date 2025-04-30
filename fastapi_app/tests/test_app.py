@@ -42,13 +42,13 @@ def test_read_users(client):
 
 
 def test_read_user(client):
-    response = client.get("user/1")
+    response = client.get("users/1")
 
     assert response.status_code == HTTPStatus.OK
 
 
 def test_read_user_not_found(client):
-    response = client.get("/user/2")
+    response = client.get("/users/2")
 
     assert response.status_code == HTTPStatus.NOT_FOUND
 
